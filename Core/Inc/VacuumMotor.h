@@ -12,20 +12,20 @@
 #define VACUUM_PWM 750
 // 50Hz 750 -> Mesuré à 805us
 
-// Fonctione en vrai : 1kHz -> 200us
+// Fonctionne en vrai : 1kHz -> 200us
 
 typedef struct {
 	uint32_t channel;
 	TIM_HandleTypeDef *timer;
 } VacuumMotorHandler;
 
-// Contient toutes les donnés du moteur d'aspi
+// Contient toutes les données du moteur d'aspi
 extern VacuumMotorHandler vacuum_motor;
 
 
 void vacuum_motor_init();
 /*
- * Init le moteur d'aspi
+ * Initialise le moteur d'aspi
  */
 
 void vacuum_motor_run();
@@ -34,7 +34,7 @@ void vacuum_motor_run();
  */
 void vacuum_motor_stop();
 /*
- * Stop l'aspiration
+ * Stoppe l'aspiration
  */
 
 #endif /* INC_VACUUMMOTOR_H_ */

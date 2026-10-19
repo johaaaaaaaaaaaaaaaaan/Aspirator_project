@@ -15,7 +15,7 @@
    *
    */
 
-// Compteur en fonction des valeur de PWM
+// Compteur en fonction des valeurs de PWM
 #define SERVOMOTOR_PWM_CLOCKWISE 1882         // 2000 us
 #define SERVOMOTOR_PWM_COUNTER_CLOCKWISE 941  // 1000 us
 #define SERVOMOTOR_PWM_STOP 1412              // 1500 us
@@ -32,34 +32,34 @@ typedef struct {
 	TIM_HandleTypeDef *timer_br;
 } ServoMotorsHandler;
 
-// Contient toutes les donnés des servos
+// Contient toutes les données des servos
 extern ServoMotorsHandler servomotors;
 
 void servomotor_init();
 /*
- * Init les servos
+ * Initialise les servos
  */
 
 void robot_forward();
 /*
- * Dépalce le robot vers l'avant, vers la marche (moteur restent actifs)
+ * Déplace le robot vers l'avant, vers la marche (moteurs restent actifs)
  */
 void robot_backward();
 /*
- * Dépalce le robot vers l'arrière, éloigne de la marche (moteur restent actifs)
+ * Déplace le robot vers l'arrière, s'éloigne de la marche (moteurs restent actifs)
  */
 void robot_left();
 /*
- * Dépalce le robot vers la gauche (moteur restent actifs)
+ * Déplace le robot vers la gauche (moteurs restent actifs)
  */
 void robot_right();
 /*
- * Dépalce le robot vers la droite (moteur restent actifs)
+ * Déplace le robot vers la droite (moteurs restent actifs)
  */
 
 void robot_stop();
 /*
- * Arrète le mouvement du robot (moteurs éteints)
+ * Arrête le mouvement du robot (moteurs éteints)
  */
 
 #endif /* INC_SERVOMOTOR_H_ */

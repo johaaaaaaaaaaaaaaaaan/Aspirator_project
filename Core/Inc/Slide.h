@@ -22,7 +22,7 @@ extern SlideHandler slide;
 
 void slide_init();
 /*
- * Init la glissière
+ * Initialise la glissière
  */
 
 void slide_retract();
@@ -31,11 +31,11 @@ void slide_retract();
  */
 void slide_extend();
 /*
- * Etend la glissière (moteur reste en marche)
+ * Étend la glissière (moteur reste en marche)
  */
 void slide_stop();
 /*
- * Stop la glissière (moteur éteint)
+ * Stoppe la glissière (moteur éteint)
  */
 
 #endif /* INC_SLIDE_H_ */

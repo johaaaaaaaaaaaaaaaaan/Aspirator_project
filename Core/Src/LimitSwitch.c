@@ -3,7 +3,7 @@
 
 bool is_limit_switch_active(short index){
 
-	// Mesure de l'état du catpeur indiqué
+	// Mesure de l'état du capteur indiqué
 
 	switch(index){
 		case LIMIT_SWITCH_SCISSORS:

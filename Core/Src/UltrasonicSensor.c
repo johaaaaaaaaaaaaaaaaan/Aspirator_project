@@ -2,19 +2,19 @@
 
 UltrasonicSensorsHandler ultrasonic_sensors;
 
-// indices des unltrasons
+// Indices des ultrasons
 #define ULTRASONIC_INDEX_BACK 0
 #define ULTRASONIC_INDEX_BOTTOM 1
 #define ULTRASONIC_INDEX_LEFT 2
 #define ULTRASONIC_INDEX_RIGHT 3
-// Dernière messure effectué ou en cours
+// Dernière mesure effectuée ou en cours
 short current_mesure = ULTRASONIC_INDEX_RIGHT;
 
-// Etat des messures possibles
+// États possibles des mesures
 #define ULTRASONIC_MESURE_WAITING 0
 #define ULTRASONIC_MESURE_RECEIVING 1
 #define ULTRASONIC_MESURE_ENDED 2
-// Etat de la messure en cours
+// État de la mesure en cours
 short mesure_step = ULTRASONIC_MESURE_ENDED;
 
 void ultrasonic_sensor_init(){
@@ -23,13 +23,13 @@ void ultrasonic_sensor_init(){
 
 void ultrasonic_sensor_mesure_all(){
 	while (mesure_step != ULTRASONIC_MESURE_ENDED){
-		// Attendre la fin des autres messures
+		// Attendre la fin des autres mesures
 	}
 	current_mesure = ULTRASONIC_INDEX_RIGHT; // On met le compteur au max
-	// On fait la mesure (donc pour le preier capteur car le compteur est au max)
+	// On fait la mesure (donc pour le premier capteur car le compteur est au max)
 	ultrasonic_sensor_next_mesure();
 
-	// On attend d'avoir fait tout les capteurs
+	// On attend d'avoir fait tous les capteurs
 	while (current_mesure != ULTRASONIC_INDEX_RIGHT){
 		ultrasonic_sensor_next_mesure();
 	}
@@ -38,12 +38,12 @@ void ultrasonic_sensor_mesure_all(){
 
 void ultrasonic_sensor_next_mesure(){
 
-	// Fait rien si déja une messure en cours
+	// Ne fait rien si une mesure est déjà en cours
 	if (mesure_step != ULTRASONIC_MESURE_ENDED){
 		return;
 	}
 
-	// On trouve le catpeur suivant pour lequel il
+	// On trouve le capteur suivant pour lequel il
 	// faut faire la mesure
 	current_mesure = (current_mesure + 1) % 4;
 
@@ -72,13 +72,13 @@ void ultrasonic_sensor_next_mesure(){
 	}
 }
 
-// ========================== Interuptions ==========================
+// ========================== Interruptions ==========================
 
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	// Interuption echo
-	// On a reçus un retour, on en déduit la distance
+	// Interruption echo
+	// On a reçu un retour, on en déduit la distance
 
 	if(GPIO_Pin == ultrasonic_sensors.pin_echo_back && current_mesure == ULTRASONIC_INDEX_BACK) {
 		// Front montant
@@ -88,7 +88,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			__HAL_TIM_SET_COUNTER(ultrasonic_sensors.timer, 0);
 			HAL_TIM_Base_Start_IT(ultrasonic_sensors.timer);
 			mesure_step = ULTRASONIC_MESURE_RECEIVING;
-		// Front dessandant
+		// Front descendant
 		// On déduit du temps de pulsation la distance
 		}else if (HAL_GPIO_ReadPin(ultrasonic_sensors.port_echo_back, ultrasonic_sensors.pin_echo_back) == GPIO_PIN_RESET
 				&& mesure_step == ULTRASONIC_MESURE_RECEIVING){
@@ -104,7 +104,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			__HAL_TIM_SET_COUNTER(ultrasonic_sensors.timer, 0);
 			HAL_TIM_Base_Start_IT(ultrasonic_sensors.timer);
 			mesure_step = ULTRASONIC_MESURE_RECEIVING;
-		// Front dessandant
+		// Front descendant
 		}else if (HAL_GPIO_ReadPin(ultrasonic_sensors.port_echo_bottom, ultrasonic_sensors.pin_echo_bottom) == GPIO_PIN_RESET
 				&& mesure_step == ULTRASONIC_MESURE_RECEIVING){
 			//HAL_TIM_Base_Stop(ultrasonic_sensors.timer);
@@ -114,16 +114,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	}
 
-	// TODO manque les deux untrasons gauche/droite
+	// TODO manquent les deux ultrasons gauche/droite
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-	// Interuption Timer 4 overflow
+	// Interruption Timer 4 overflow
 
-	// On dépase la maveur max du compteur
-	// -> Mesure de distance très éoigner
-	// On annule la mesure pour pas bloquer les autres capteurs
+	// On dépasse la valeur max du compteur
+	// -> Mesure de distance très éloignée
+	// On annule la mesure pour ne pas bloquer les autres capteurs
 
 	mesure_step = ULTRASONIC_MESURE_ENDED;
 }

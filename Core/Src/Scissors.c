@@ -3,7 +3,7 @@
 ScissorsHandler scissors;
 
 void scissors_init(){
-	// Démarage Timer pour le PWM
+	// Démarrage Timer pour le PWM
 	HAL_TIM_PWM_Start(scissors.timer, scissors.channel);
 }
 

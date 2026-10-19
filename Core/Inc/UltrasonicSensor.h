@@ -3,7 +3,7 @@
 #ifndef INC_ULTRASONICSENSOR_H_
 #define INC_ULTRASONICSENSOR_H_
 
-#define DISTANCE_COEFFICIENT 0.17f // coef qui convertie tick du timer en mm
+#define DISTANCE_COEFFICIENT 0.17f // coef qui convertit les ticks du timer en mm
 
 typedef struct {
 	TIM_HandleTypeDef *timer;
@@ -31,7 +31,7 @@ extern UltrasonicSensorsHandler ultrasonic_sensors;
 
 void ultrasonic_sensor_init();
 /*
- * Init les ultrasons
+ * Initialise les ultrasons
  */
 
 void ultrasonic_sensor_mesure_all();

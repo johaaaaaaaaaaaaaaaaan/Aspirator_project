@@ -13,7 +13,7 @@ typedef struct {
 	TIM_HandleTypeDef *timer;
 } ScissorsHandler;
 
-// Contient toutes les donénes du ciseau
+// Contient toutes les données des ciseaux
 extern ScissorsHandler scissors;
 
 
@@ -24,15 +24,15 @@ void scissors_init();
 
 void scissors_retract();
 /*
- * Rentre le ciseaux (moteur reste a tourner)
+ * Rentre les ciseaux (le moteur continue à tourner)
  */
 void scissors_extend();
 /*
- * Etend le ciseaux (moteur reste a tourner)
+ * Étend les ciseaux (le moteur continue à tourner)
  */
 void scissors_stop();
 /*
- * Stop le ciseaux (Aret moteur)
+ * Stoppe les ciseaux (arrêt moteur)
  */
 
 #endif /* INC_SCISSORS_H_ */

@@ -4,7 +4,7 @@ VacuumMotorHandler vacuum_motor;
 
 
 void vacuum_motor_init(){
-	// Démarage Timer pour le PWM
+	// Démarrage Timer pour le PWM
 	HAL_TIM_PWM_Start(vacuum_motor.timer, vacuum_motor.channel);
 }
 

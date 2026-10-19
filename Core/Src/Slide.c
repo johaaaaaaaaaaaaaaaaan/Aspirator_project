@@ -3,12 +3,12 @@
 SlideHandler slide;
 
 void slide_init(){
-	// Démare le timer
+	// Démarre le timer
 	HAL_TIM_PWM_Start(slide.timer, slide.channel);
 }
 
 void slide_retract(){
-	// Sens de roation du moteur
+	// Sens de rotation du moteur
 	HAL_GPIO_WritePin(ENABLE2_SLIDE_GPIO_Port, ENABLE2_SLIDE_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(ENABLE1_SLIDE_GPIO_Port, ENABLE1_SLIDE_Pin, GPIO_PIN_SET);
 
@@ -17,7 +17,7 @@ void slide_retract(){
 }
 
 void slide_extend(){
-	// Sens de roation du moteur
+	// Sens de rotation du moteur
 	HAL_GPIO_WritePin(ENABLE1_SLIDE_GPIO_Port, ENABLE1_SLIDE_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(ENABLE2_SLIDE_GPIO_Port, ENABLE2_SLIDE_Pin, GPIO_PIN_SET);
 

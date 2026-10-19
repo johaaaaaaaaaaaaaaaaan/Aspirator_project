@@ -165,7 +165,7 @@ int main(void)
   ultrasonic_sensors.port_trigger_bottom = TRIGGER_4_GPIO_Port;
   ultrasonic_sensors.pin_trigger_bottom = TRIGGER_4_Pin;
 
-  // TODO manque les deux autre ultrasons
+  // TODO manquent les deux autres ultrasons
   // pas encore en place sur le robot
 
   ultrasonic_sensor_init();
@@ -174,7 +174,7 @@ int main(void)
 
 
   // ==============================================
-  //     Mise en route du robot - verif capteur
+  //     Mise en route du robot - vérif capteurs
   // ==============================================
 
 
@@ -189,19 +189,19 @@ int main(void)
 
 
   // Reset ciseaux et glissière
-  bool done_scisors = false;
+  bool done_scissors = false;
   bool done_slide = false;
-  while (!done_scisors || !done_slide){ // Tant que ciseaux et glissière ne sont pas en butée
+  while (!done_scissors || !done_slide){ // Tant que ciseaux et glissière ne sont pas en butée
 
-	  // Reset ciseaux en position rentré
+	  // Reset ciseaux en position rentrée
 	  if (is_limit_switch_active(LIMIT_SWITCH_SCISSORS)){
 		  scissors_stop();
-		  done_scisors = true;
+		  done_scissors = true;
 	  }else{
 		  scissors_retract();
 	  }
 
-	  // Reset glissière en position rentré
+	  // Reset glissière en position rentrée
 	  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_IN)){
 		  slide_stop();
 		  done_slide = true;
@@ -210,7 +210,7 @@ int main(void)
 	  }
   }
 
-  // Ajout petit décalage avec le capteur de la glissière
+  // Ajout d'un petit décalage avec le capteur de la glissière
   slide_extend();
   HAL_Delay(500);
   slide_stop();
@@ -229,15 +229,15 @@ int main(void)
 
 
   // ==============================================
-  //            Programme principale
+  //            Programme principal
   // ==============================================
 
 
-  // Variables pour la monté de marche
+  // Variables pour la montée de marche
   // Version de test
-  // TODO faire un truc plus calair et génraliste
+  // TODO faire un truc plus clair et généraliste
   float d; // distance capteur devant
-  int state = 0; // etat du robot
+  int state = 0; // état du robot
 
   /* USER CODE END 2 */
 
@@ -250,14 +250,14 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  // Mesure avec les ultrasons
-	  // ultrasonic_sensor_mesure_all(); // TODO bloque bug a voir
+	  // ultrasonic_sensor_mesure_all(); // TODO bloque, bug à voir
 	  // On remplace par :
 
-	  // Fait une messure (1 ultra sons chacun son tour)
+	  // Fait une mesure (1 ultrason chacun son tour)
 	  ultrasonic_sensor_next_mesure();
 	  HAL_Delay(10);
 
-	  // actualisation d (a modif plus tard pour un truc plus propre)
+	  // actualisation d (à modifier plus tard pour un truc plus propre)
 	  d = ultrasonic_sensors.distance_back;
 
 
@@ -271,19 +271,19 @@ int main(void)
 
 
 
-	  // ===== Programme de monté de marche =====
+	  // ===== Programme de montée de marche =====
 
 	  if (state == 0){ // 0 Monter
-		  // Ettend le ciseaux tant que on est pas en haut de la marche
+		  // Étend les ciseaux tant qu'on n'est pas en haut de la marche
 		  if (d <= 100){
 			  scissors_extend();
 		  }else{
-			  HAL_Delay(3000); // Petit délai, temps que les roue soit au dessu de la marche
+			  HAL_Delay(3000); // Petit délai, le temps que les roues soient au-dessus de la marche
 			  scissors_stop();
 			  state = 1;
 		  }
 	  }else if (state == 1){ // 1 Translater
-		  // Glisière au max
+		  // Glissière au max
 		  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_OUT)){
 			  slide_stop();
 			  robot_stop();
@@ -292,8 +292,8 @@ int main(void)
 			  slide_extend();
 			  robot_forward();
 		  }
-	  }else if (state == 2){ // 2 Ranger sciseaux
-		  // Retraction ciseaux au max
+	  }else if (state == 2){ // 2 Ranger ciseaux
+		  // Rétraction ciseaux au max
 		  if (is_limit_switch_active(LIMIT_SWITCH_SCISSORS)){
 			  scissors_stop();
 			  state = 3;
@@ -301,18 +301,18 @@ int main(void)
 			  scissors_retract();
 		  }
 	  }else if (state == 3){ // 3 Ranger glissière
-		  // Retraction glisière au max
+		  // Rétraction glissière au max
 		  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_IN)){
 			  slide_extend();
-			  HAL_Delay(500); // petite sécu pour pas rester contre le capteur
+			  HAL_Delay(500); // petite sécu pour ne pas rester contre le capteur
 			  slide_stop();
 			  state = 4;
 		  }else{
 			  slide_retract();
 		  }
 	  }
-	  // 4 Rien faire, robot sur la marche
-	  // Plus tard, on fera l'aspiration et le rebouclage à l'etat 0
+	  // 4 Ne rien faire, robot sur la marche
+	  // Plus tard, on fera l'aspiration et le rebouclage à l'état 0
 
 
   }
