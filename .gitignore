@@ -1,0 +1,29 @@
+# Dossiers de build STM32CubeIDE
+Debug/
+Release/
+
+# Artefacts de compilation
+*.o
+*.d
+*.su
+*.cyclo
+*.elf
+*.hex
+*.bin
+*.map
+*.list
+*.srec
+
+# Fichiers spécifiques à la machine / IDE
+.settings/language.settings.xml
+.metadata/
+.vscode/
+.idea/
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
+*.bak
+*~
