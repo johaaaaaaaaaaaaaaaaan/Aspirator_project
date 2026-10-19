@@ -1,12 +1,94 @@
 #include "MainLogic.h"
+#include "Scissors.h"
+#include "ServoMotor.h"
+#include "Slide.h"
+#include "LimitSwitch.h"
 
-RobotState State = { INIT_1, CLIMB };
+RobotState State = {CRABBING, CLIMB};
 
-void climb(float d)
+// ========== Variables internes à l'alignement ==========
+
+#define INIT_ROTATE_TIME_MIN 10 // Durée minimale d'une rotation de correction (ms)
+
+// Durée d'une rotation de correction (ms), divisée par 2 à chaque changement de sens
+static float init_rotate_time = 100;
+
+// La correction de trajectoire n'est faite qu'un appel sur 6
+static int align_counter = 0;
+
+// Sens de la dernière rotation de correction
+static enum
+{
+    ROTATION_RIGHT,
+    ROTATION_LEFT
+} last_rotation = ROTATION_RIGHT;
+
+bool init(float d_left, float d_front)
+{
+    switch (State.init)
+    {
+    case CRABBING: // 0 Approche du mur par la gauche
+        if (d_left < 80)
+        {
+            robot_stop();
+            State.init = ALIGN;
+        }
+        else
+        {
+            robot_left();
+        }
+        break;
+
+    case ALIGN: // 1 Avance le long du mur jusqu'à la marche
+        if (d_front < 50)
+        {
+            // Arrivé devant la marche
+            robot_stop();
+            return true;
+        }
+
+        if (align_counter == 5)
+        {
+            if (d_left < 40)
+            {
+                // Trop près du mur, on tourne à droite
+                robot_stop();
+                HAL_Delay(100);
+                robot_right();
+                HAL_Delay(init_rotate_time);
+                if (last_rotation == ROTATION_LEFT && init_rotate_time > INIT_ROTATE_TIME_MIN)
+                {
+                    init_rotate_time = init_rotate_time / 2;
+                }
+                last_rotation = ROTATION_RIGHT;
+            }
+            else if (d_left > 60)
+            {
+                // Trop loin du mur, on tourne à gauche
+                robot_stop();
+                HAL_Delay(100);
+                robot_left();
+                HAL_Delay(init_rotate_time);
+                if (last_rotation == ROTATION_RIGHT && init_rotate_time > INIT_ROTATE_TIME_MIN)
+                {
+                    init_rotate_time = init_rotate_time / 2;
+                }
+                last_rotation = ROTATION_LEFT;
+            }
+        }
+
+        // On repart tout droit (aussi après une correction)
+        robot_forward();
+        align_counter = (align_counter + 1) % 6;
+        break;
+    }
+    return false;
+}
+
+bool climb(float d)
 {
     switch (State.climb)
-    { 
-        
+    {
     case CLIMB: // 0 Monter
         // Étend les ciseaux tant qu'on n'est pas en haut de la marche
         if (d <= 100)
@@ -56,7 +138,8 @@ void climb(float d)
             slide_extend();
             HAL_Delay(500); // petite sécu pour ne pas rester contre le capteur
             slide_stop();
-            State.init = INIT_2;
+            State.climb = CLIMB; // Prêt pour la marche suivante
+            return true;
         }
         else
         {
@@ -64,6 +147,5 @@ void climb(float d)
         }
         break;
     }
-    // 4 Ne rien faire, robot sur la marche
-    // Plus tard, on fera l'aspiration et le rebouclage à l'état 0
+    return false;
 }
