@@ -14,14 +14,14 @@ void servomotor_init(){
 void robot_forward(){
 	__HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
 	__HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
-	__HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+	__HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
 	__HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
 }
 
 void robot_backward(){
 	__HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_CLOCKWISE);
 	__HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
-	__HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
+	__HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
 	__HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_CLOCKWISE);
 }
 
