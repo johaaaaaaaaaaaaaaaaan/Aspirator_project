@@ -125,8 +125,8 @@ int main(void)
   servomotors.timer_br = &htim1;
   servomotors.channel_fr = TIM_CHANNEL_1;
   servomotors.timer_fr = &htim1;
-  // servomotors.channel_fl = TIM_CHANNEL_3; // TODO
-  // servomotors.timer_fl = &htim1;
+  servomotors.channel_fl = TIM_CHANNEL_3;
+  servomotors.timer_fl = &htim2;
   servomotor_init();
 
 
@@ -409,10 +409,6 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
@@ -470,6 +466,10 @@ static void MX_TIM2_Init(void)
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
