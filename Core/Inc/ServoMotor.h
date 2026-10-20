@@ -56,10 +56,16 @@ void robot_right();
 /*
  * Déplace le robot vers la droite (moteurs restent actifs)
  */
-
 void robot_stop();
 /*
  * Arrête le mouvement du robot (moteurs éteints)
  */
-
+void robot_spin_cw();
+/*
+ * Fait tourner le robot sur lui-même dans le sens horaire, vu de dessus (moteurs restent actifs)
+ */
+void robot_spin_ccw();
+/*
+ * Fait tourner le robot sur lui-même dans le sens antihoraire, vu de dessus (moteurs restent actifs)
+ */
 #endif /* INC_SERVOMOTOR_H_ */
