@@ -73,7 +73,9 @@ static void MX_TIM4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+#define SERVOMOTOR_PWM_CLOCKWISE 1882         // 2000 us
+#define SERVOMOTOR_PWM_COUNTER_CLOCKWISE 941  // 1000 us
+#define SERVOMOTOR_PWM_STOP 1412              // 1500 us
 /* USER CODE END 0 */
 
 /**
@@ -272,45 +274,24 @@ int main(void)
 
 
 	  // ===== Programme de montée de marche =====
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_STOP);
+    HAL_Delay(10);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_STOP);
+    HAL_Delay(10);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
+    HAL_Delay(10);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_STOP);
+    robot_stop();
+    HAL_Delay(5000);
 
-	  if (state == 0){ // 0 Monter
-		  // Étend les ciseaux tant qu'on n'est pas en haut de la marche
-		  if (d <= 100){
-			  scissors_extend();
-		  }else{
-			  HAL_Delay(3000); // Petit délai, le temps que les roues soient au-dessus de la marche
-			  scissors_stop();
-			  state = 1;
-		  }
-	  }else if (state == 1){ // 1 Translater
-		  // Glissière au max
-		  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_OUT)){
-			  slide_stop();
-			  robot_stop();
-			  state = 2;
-		  }else{
-			  slide_extend();
-			  robot_forward();
-		  }
-	  }else if (state == 2){ // 2 Ranger ciseaux
-		  // Rétraction ciseaux au max
-		  if (is_limit_switch_active(LIMIT_SWITCH_SCISSORS)){
-			  scissors_stop();
-			  state = 3;
-		  }else{
-			  scissors_retract();
-		  }
-	  }else if (state == 3){ // 3 Ranger glissière
-		  // Rétraction glissière au max
-		  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_IN)){
-			  slide_extend();
-			  HAL_Delay(500); // petite sécu pour ne pas rester contre le capteur
-			  slide_stop();
-			  state = 4;
-		  }else{
-			  slide_retract();
-		  }
-	  }
 	  // 4 Ne rien faire, robot sur la marche
 	  // Plus tard, on fera l'aspiration et le rebouclage à l'état 0
 
