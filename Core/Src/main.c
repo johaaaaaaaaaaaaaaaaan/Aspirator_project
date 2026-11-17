@@ -31,6 +31,7 @@
 #include "Slide.h"
 #include "VacuumMotor.h"
 #include "UltrasonicSensor.h"
+#include "MainLogic.h"
 
 
 /* USER CODE END Includes */
@@ -236,8 +237,17 @@ int main(void)
   // Variables pour la montée de marche
   // Version de test
   // TODO faire un truc plus clair et généraliste
-  float d; // distance capteur devant
-  int state = 0; // état du robot
+  float d_back; // distance capteur devant
+  float d_left; // distance capteur gauche
+  float d_front; // distance capteur avant
+  float prev_d_left[5] = {0,0,0,0,0}; // précédent distance capteur gauche
+  enum {
+	MODE_INIT,
+	MODE_CLIMB,
+	MODE_STAIR,
+  MODE_FLAT
+} mode = MODE_INIT;
+
 
   /* USER CODE END 2 */
 
@@ -258,7 +268,9 @@ int main(void)
 	  HAL_Delay(10);
 
 	  // actualisation d (à modifier plus tard pour un truc plus propre)
-	  d = ultrasonic_sensors.distance_back;
+	  d_back = ultrasonic_sensors.distance_back;
+    d_left = ultrasonic_sensors.distance_left;
+
 
 
 	  // TODO Temp Test led et distance pour debug
@@ -268,51 +280,22 @@ int main(void)
 		  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 	  }
 	  */
+    switch(mode){
+      case MODE_INIT:
+      if (init(d_left,d_back)){
+        mode = MODE_CLIMB;
+      }
+      break;
+
+      case MODE_CLIMB:
+      if (climb(d_back)){
+        mode = MODE_STAIR;
+      }
+      break;
 
 
 
-	  // ===== Programme de montée de marche =====
-
-	  if (state == 0){ // 0 Monter
-		  // Étend les ciseaux tant qu'on n'est pas en haut de la marche
-		  if (d <= 100){
-			  scissors_extend();
-		  }else{
-			  HAL_Delay(3000); // Petit délai, le temps que les roues soient au-dessus de la marche
-			  scissors_stop();
-			  state = 1;
-		  }
-	  }else if (state == 1){ // 1 Translater
-		  // Glissière au max
-		  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_OUT)){
-			  slide_stop();
-			  robot_stop();
-			  state = 2;
-		  }else{
-			  slide_extend();
-			  robot_forward();
-		  }
-	  }else if (state == 2){ // 2 Ranger ciseaux
-		  // Rétraction ciseaux au max
-		  if (is_limit_switch_active(LIMIT_SWITCH_SCISSORS)){
-			  scissors_stop();
-			  state = 3;
-		  }else{
-			  scissors_retract();
-		  }
-	  }else if (state == 3){ // 3 Ranger glissière
-		  // Rétraction glissière au max
-		  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_IN)){
-			  slide_extend();
-			  HAL_Delay(500); // petite sécu pour ne pas rester contre le capteur
-			  slide_stop();
-			  state = 4;
-		  }else{
-			  slide_retract();
-		  }
-	  }
-	  // 4 Ne rien faire, robot sur la marche
-	  // Plus tard, on fera l'aspiration et le rebouclage à l'état 0
+    }
 
 
   }
