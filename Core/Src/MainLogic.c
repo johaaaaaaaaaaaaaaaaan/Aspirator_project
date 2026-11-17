@@ -54,7 +54,7 @@ bool init(float d_left, float d_front)
                 // Trop près du mur, on tourne à droite
                 robot_stop();
                 HAL_Delay(100);
-                robot_right();
+                robot_right(); // TODO pas la bonne fonction : il faut une rotation à droite, pas un déplacement
                 HAL_Delay(init_rotate_time);
                 if (last_rotation == ROTATION_LEFT && init_rotate_time > INIT_ROTATE_TIME_MIN)
                 {
@@ -67,7 +67,7 @@ bool init(float d_left, float d_front)
                 // Trop loin du mur, on tourne à gauche
                 robot_stop();
                 HAL_Delay(100);
-                robot_left();
+                robot_left(); // TODO pas la bonne fonction : il faut une rotation à gauche, pas un déplacement
                 HAL_Delay(init_rotate_time);
                 if (last_rotation == ROTATION_RIGHT && init_rotate_time > INIT_ROTATE_TIME_MIN)
                 {
