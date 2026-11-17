@@ -5,10 +5,8 @@
 
 // Compteur pour les différentes valeurs de PWM
 
-// #define SLIDE_PWM 3765 // 20%
-// #define SLIDE_PWM 11293 // 60%
-// #define SLIDE_PWM 15057 // 80%
-#define SLIDE_PWM 18822 // 100%
+#define SLIDE_PWM 5646 // 30%
+//#define SLIDE_PWM 18822 // 100%
 
 
 typedef struct {
