@@ -220,31 +220,38 @@ int main(void)
 
 
 	  // ===== Programme de montée de marche =====
-    //__HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, //SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
-    //HAL_Delay(1000);
-    //__HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_STOP);
-
-    //VRAI Mot == BACK LEFT
-
-    HAL_Delay(1000);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
-    HAL_Delay(10000);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_STOP);
 
     
-    // HAL_Delay(10);
-     //__HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
-     //HAL_Delay(1000);
-     //__HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
-     HAL_Delay(1000);
-
-     //VRAI MOT  == FRONT LEFT
-
-    //__HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
-    //HAL_Delay(1000);
-    //__HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_STOP);
-    // robot_stop();
-    // HAL_Delay(5000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl,SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_STOP);
+    HAL_Delay(10);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_STOP);
+    HAL_Delay(10);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
+    HAL_Delay(10);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
+    HAL_Delay(1000);
+    __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_STOP);
+    robot_forward();
+    HAL_Delay(2000);
+    robot_backward();
+    HAL_Delay(2000);
+    robot_left();
+    HAL_Delay(2000);
+    robot_right();
+    HAL_Delay(2000);
+    robot_spin_ccw();
+    HAL_Delay(2000);
+    robot_spin_cw();
+    HAL_Delay(2000);
+    robot_stop();
+    HAL_Delay(5000);
+    
 
 	  // 4 Ne rien faire, robot sur la marche
 	  // Plus tard, on fera l'aspiration et le rebouclage à l'état 0
