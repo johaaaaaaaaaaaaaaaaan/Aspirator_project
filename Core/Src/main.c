@@ -169,60 +169,6 @@ int main(void)
 
   // TODO manquent les deux autres ultrasons
   // pas encore en place sur le robot
-
-  ultrasonic_sensor_init();
-
-
-
-
-  // ==============================================
-  //     Mise en route du robot - vérif capteurs
-  // ==============================================
-
-
-
-  // On éloigne les ciseaux et la glissière
-  // des capteurs de fin de course pour les
-  // repositionner correctement
-  scissors_extend();
-  slide_extend();
-
-  HAL_Delay(500);
-
-
-  // Reset ciseaux et glissière
-  bool done_scissors = false;
-  bool done_slide = false;
-  while (!done_scissors || !done_slide){ // Tant que ciseaux et glissière ne sont pas en butée
-
-	  // Reset ciseaux en position rentrée
-	  if (is_limit_switch_active(LIMIT_SWITCH_SCISSORS)){
-		  scissors_stop();
-		  done_scissors = true;
-	  }else{
-		  scissors_retract();
-	  }
-
-	  // Reset glissière en position rentrée
-	  if (is_limit_switch_active(LIMIT_SWITCH_SLIDE_IN)){
-		  slide_stop();
-		  done_slide = true;
-	  }else {
-		  slide_retract();
-	  }
-  }
-
-  // Ajout d'un petit décalage avec le capteur de la glissière
-  slide_extend();
-  HAL_Delay(500);
-  slide_stop();
-
-
-
-
-
-
-
   // HAL_TIM_Base_Start_IT(&htim4); // TODO lance le timer 4
   // Normalement pas utile, on garde la commande sous
   // la main au cas où
@@ -256,20 +202,20 @@ int main(void)
 	  // On remplace par :
 
 	  // Fait une mesure (1 ultrason chacun son tour)
-	  ultrasonic_sensor_next_mesure();
-	  HAL_Delay(10);
+	  //ultrasonic_sensor_next_mesure();
+	  //HAL_Delay(10);
 
 	  // actualisation d (à modifier plus tard pour un truc plus propre)
 	  d = ultrasonic_sensors.distance_back;
 
+	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
-	  // TODO Temp Test led et distance pour debug
-	  /*if (d <= 100){
-		  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-	  }else{
-		  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-	  }
-	  */
+	  HAL_Delay(100);
+
+	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+
+
+
 
 
 
@@ -277,20 +223,20 @@ int main(void)
     __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
     HAL_Delay(1000);
     __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_STOP);
-    HAL_Delay(10);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
     HAL_Delay(1000);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_STOP);
-    HAL_Delay(10);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
-    HAL_Delay(1000);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
-    HAL_Delay(10);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
-    HAL_Delay(1000);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_STOP);
-    robot_stop();
-    HAL_Delay(5000);
+    //__HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
+    //HAL_Delay(1000);
+    // __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_STOP);
+    // HAL_Delay(10);
+    // __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+    // HAL_Delay(1000);
+    // __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
+    // HAL_Delay(10);
+    // __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
+    // HAL_Delay(1000);
+    // __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_STOP);
+    // robot_stop();
+    // HAL_Delay(5000);
 
 	  // 4 Ne rien faire, robot sur la marche
 	  // Plus tard, on fera l'aspiration et le rebouclage à l'état 0
