@@ -203,18 +203,19 @@ int main(void)
 
 
 	  // ===== Programme de montée de marche =====
+
     scissors_extend();
-    HAL_Delay(500);
+    HAL_Delay(1000);
+    scissors_retract();
+    HAL_Delay(1000);
     scissors_stop();
-    HAL_Delay(100000);
-    /*scissors_retract();
     HAL_Delay(1000);
 	  slide_extend();
     HAL_Delay(1000);
     slide_stop();
     HAL_Delay(1000);
     slide_retract();
-    HAL_Delay(1000); */
+    HAL_Delay(1000);
 
 
 
