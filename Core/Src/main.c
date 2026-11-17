@@ -220,18 +220,21 @@ int main(void)
 
 
 	  // ===== Programme de montée de marche =====
-    __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
-    HAL_Delay(1000);
-    __HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_STOP);
-    HAL_Delay(1000);
+    //__HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+    //HAL_Delay(1000);
+    //__HAL_TIM_SET_COMPARE(servomotors.timer_fl, servomotors.channel_fl, SERVOMOTOR_PWM_STOP);
+
+    //VRAI Mot == BACK LEFT
+
+    //HAL_Delay(10);
     //__HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_CLOCKWISE);
     //HAL_Delay(1000);
     // __HAL_TIM_SET_COMPARE(servomotors.timer_fr, servomotors.channel_fr, SERVOMOTOR_PWM_STOP);
     // HAL_Delay(10);
-    // __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
-    // HAL_Delay(1000);
-    // __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
-    // HAL_Delay(10);
+     __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_COUNTER_CLOCKWISE);
+     HAL_Delay(1000);
+     __HAL_TIM_SET_COMPARE(servomotors.timer_bl, servomotors.channel_bl, SERVOMOTOR_PWM_STOP);
+     HAL_Delay(1000);
     // __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_CLOCKWISE);
     // HAL_Delay(1000);
     // __HAL_TIM_SET_COMPARE(servomotors.timer_br, servomotors.channel_br, SERVOMOTOR_PWM_STOP);
